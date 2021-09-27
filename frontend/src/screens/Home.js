@@ -4,7 +4,7 @@ import { Button, Card, Title, Paragraph } from "react-native-paper";
 import sanity from "../lib/sanity";
 function Home({ navigation }) {
   const [songs, setSongs] = React.useState([]);
-  const query = `*[_type == "song"]{title,songNo,lyrics,_id,"url":song.asset->url}`;
+  const query = `*[_type == "song"]{title,songNo,filename,lyrics,_id,"url":song.asset->url}`;
 
   const params = {};
   const fetchMyAPI = React.useCallback(async () => {

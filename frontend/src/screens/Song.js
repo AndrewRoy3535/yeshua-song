@@ -19,7 +19,7 @@ import * as Sharing from "expo-sharing";
 const Song = ({ navigation, route }) => {
   const { song } = route.params;
   const audio = {
-    filename: song.title,
+    filename: song.filename,
     uri: song.url,
   };
 
@@ -100,30 +100,29 @@ const Song = ({ navigation, route }) => {
 
   const handleDownloadSong = async () => {
     const url = audio.uri + "?dl=";
-    const fileUri = `${FileSystem.documentDirectory}songs/${audio.filename}.mp3`;
-    const downloadedFile = await FileSystem.downloadAsync(url, fileUri);
 
-    const imageFileExts = ["jpg", "png", "gif", "heic", "webp", "bmp"];
+    const filename = song.filename.replace(/\s+/g, "_");
+    const fileUri = `${FileSystem.documentDirectory}songs/${filename}.mp3`;
+    // const downloadedFile = await FileSystem.downloadAsync(url, fileUri);
 
-    if (isIos && imageFileExts.every((x) => !downloadedFile.uri.endsWith(x))) {
-      const UTI = "public.item";
-      const shareResult = await Sharing.shareAsync(downloadedFile.uri, { UTI });
-      console.log(shareResult);
-    }
+    // const imageFileExts = ["jpg", "png", "gif", "heic", "webp", "bmp"];
+
+    // if (isIos && imageFileExts.every((x) => !downloadedFile.uri.endsWith(x))) {
+    //   const UTI = "public.item";
+    //   const shareResult = await Sharing.shareAsync(downloadedFile.uri, { UTI });
+    //   console.log(shareResult);
+    // }
     // if (downloadedFile.status != 200) {
     //   handleError();
     // }
 
-    // FileSystem.downloadAsync(
-    //   "http://techslides.com/demos/sample-videos/small.mp4",
-    //   FileSystem.documentDirectory + "small.mp4"
-    // )
-    //   .then(({ uri }) => {
-    //     console.log("Finished downloading to ", uri);
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
+    FileSystem.downloadAsync(url, fileUri)
+      .then(({ uri }) => {
+        console.log("Finished downloading to ", uri);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
   return (
     <ScrollView style={tw`px-2  pt-2 `}>
