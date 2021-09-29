@@ -13,8 +13,7 @@
     "@sanity/default-layout",
     "@sanity/default-login",
     "@sanity/desk-tool",
-    "media",
-    "dark-mode"
+    "media"
   ],
   "env": {
     "development": {
