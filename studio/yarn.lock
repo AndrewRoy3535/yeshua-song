@@ -9135,6 +9135,11 @@ sanity-diff-patch@^1.0.9:
   dependencies:
     diff-match-patch "^1.0.5"
 
+sanity-plugin-dark-mode@^0.0.32:
+  version "0.0.32"
+  resolved "https://registry.npmjs.org/sanity-plugin-dark-mode/-/sanity-plugin-dark-mode-0.0.32.tgz#706547578e61d5d8a614620164f6356f1909232b"
+  integrity sha512-X/UyHRZEmjPizVpgEsJZMcCYsYabhEb8lBC4qRUODN+pkMl+Dbod5J0BN+DBaySaW1cetdJRjW44UCVnwKs+GQ==
+
 sanity-plugin-media@^1.3.1:
   version "1.3.1"
   resolved "https://registry.npmjs.org/sanity-plugin-media/-/sanity-plugin-media-1.3.1.tgz#3aec23657af115e0665bf76eca3bebf3045f1390"
