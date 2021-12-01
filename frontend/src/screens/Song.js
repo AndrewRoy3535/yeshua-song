@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { ScrollView } from "react-native";
+import { View, ScrollView } from "react-native";
 import { Text, Button } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { CommonActions } from "@react-navigation/native";
 import tw from "tailwind-react-native-classnames";
 const BlockContent = require("@sanity/block-content-to-react");
-import { Audio } from "expo-av";
+// import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
-// import * as Notifications from "expo-notifications";
+import AudioSlider from "../components/AudioSlider";
 
+// import * as Notifications from "expo-notifications";
+import Player from "../components/Player";
 import * as Sharing from "expo-sharing";
 // import {
 //   AndroidImportance,
@@ -22,9 +24,10 @@ const Song = ({ navigation, route }) => {
     filename: song.filename,
     uri: song.url,
   };
-
-  // audio.uri + "?dl="
   const url = audio.uri + "?dl=";
+
+  const filename = song.filename.replace(/\s+/g, "_");
+  const fileUri = `${FileSystem.documentDirectory}songs/${filename}.mp3`;
 
   const [downloadProgress, setDownloadProgress] = useState("0%");
 
@@ -33,34 +36,38 @@ const Song = ({ navigation, route }) => {
   const [playbackStatus, setPlaybackStatus] = useState(null);
   const [duration, setDuration] = useState(null);
 
-  const init = useCallback(async () => {
-    if (playbackObject === null) {
-      const audio = new Audio.Sound();
-      setPlaybackObject(audio);
-    }
-  }, [playbackObject]);
+  // const init = useCallback(async () => {
+  //   if (playbackObject === null) {
+  //     const audio = new Audio.Sound();
+  //     setPlaybackObject(audio);
+  //   }
+  // }, [playbackObject]);
 
-  const auto = useCallback(async () => {
-    if (playbackObject !== null && playbackStatus === null) {
-      const status = await playbackObject.loadAsync({ uri: audio.uri });
+  // const auto = useCallback(async () => {
+  //   if (playbackObject !== null && playbackStatus === null) {
+  //     const status = await playbackObject.loadAsync({ uri: audio.uri });
 
-      playbackObject
-        .getStatusAsync()
-        .then(function (result) {
-          setDuration(result.durationMillis);
-        })
-        .catch((err) => console.error(err));
-      return setPlaybackStatus(status);
-    }
-  }, [playbackObject, playbackStatus]);
+  //     playbackObject
+  //       .getStatusAsync()
+  //       .then(function (result) {
+  //         setDuration(result.durationMillis);
+  //       })
+  //       .catch((err) => console.error(err));
+  //     return setPlaybackStatus(status);
+  //   }
 
-  useEffect(() => {
-    init();
-  }, [init]);
+  //   return () => {
+  //     playbackObject.unloadAsync();
+  //   };
+  // }, [playbackObject, playbackStatus]);
 
-  useEffect(() => {
-    auto();
-  }, [auto]);
+  // useEffect(() => {
+  //   init();
+  // }, [init]);
+
+  // useEffect(() => {
+  //   auto();
+  // }, [auto]);
 
   const handleAudioPlayPause = async () => {
     // if (playbackObject !== null && playbackStatus === null) {
@@ -98,11 +105,14 @@ const Song = ({ navigation, route }) => {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
+  useEffect(() => {
+    // FileSystem.getInfoAsync(fileUri)
+    //   .then((res) => {
+    //     console.log("Exist!");
+    //   })
+    //   .catch((err) => console.error(err));
+  }, []);
   const handleDownloadSong = async () => {
-    const url = audio.uri + "?dl=";
-
-    const filename = song.filename.replace(/\s+/g, "_");
-    const fileUri = `${FileSystem.documentDirectory}songs/${filename}.mp3`;
     // const downloadedFile = await FileSystem.downloadAsync(url, fileUri);
 
     // const imageFileExts = ["jpg", "png", "gif", "heic", "webp", "bmp"];
@@ -125,50 +135,57 @@ const Song = ({ navigation, route }) => {
       });
   };
   return (
-    <ScrollView style={tw`px-2  pt-2 `}>
-      <Text style={tw`text-red-400`}>{song.songNo}</Text>
-      <BlockContent blocks={song.lyrics} />
-      <Ionicons
-        style={{
-          alignSelf: "center",
-          backgroundColor: "gray",
-          padding: 10,
-          borderRadius: 50,
-        }}
-        name={isPlaying ? "pause" : "play"}
-        size={24}
-        color="white"
-        onPress={handleAudioPlayPause}
-      />
-      <Ionicons
-        style={{
-          alignSelf: "center",
-          backgroundColor: "gray",
-          padding: 10,
-          borderRadius: 50,
-        }}
-        name="stop"
-        color="white"
-        onPress={handleAudioStop}
-      />
-      <Text>{millisToMinutesAndSeconds(duration)}</Text>
+    <View>
+      <ScrollView style={tw`px-2  pt-2 mb-32 pb-32`}>
+        <Text style={tw`text-red-400`}>{song.songNo}</Text>
+        <BlockContent blocks={song.lyrics} />
+        {/* <Ionicons
+          style={{
+            alignSelf: "center",
+            backgroundColor: "gray",
+            padding: 10,
+            borderRadius: 50,
+          }}
+          name={isPlaying ? "pause" : "play"}
+          size={24}
+          color="white"
+          onPress={handleAudioPlayPause}
+        />
+        <Ionicons
+          style={{
+            alignSelf: "center",
+            backgroundColor: "gray",
+            padding: 10,
+            borderRadius: 50,
+          }}
+          name="stop"
+          color="white"
+          onPress={handleAudioStop}
+        /> */}
+        {/* {playbackObject !== null && <AudioSlider audio={playbackObject} />} */}
 
-      <Text>{downloadProgress}</Text>
-      <Button
-        icon="arrow-down"
-        mode="contained"
-        onPress={() => handleDownloadSong()}
-      >
-        Download Song
-      </Button>
-      <Button
-        icon="arrow-left-thick"
-        mode="contained"
-        onPress={() => navigation.dispatch(CommonActions.goBack())}
-      >
-        Go back
-      </Button>
-    </ScrollView>
+        <Text>{millisToMinutesAndSeconds(duration)}</Text>
+
+        <Text>{downloadProgress}</Text>
+        <Button
+          icon="arrow-down"
+          mode="contained"
+          onPress={() => handleDownloadSong()}
+        >
+          Download Song
+        </Button>
+        <Button
+          style={tw`my-4`}
+          icon="arrow-left-thick"
+          mode="contained"
+          onPress={() => navigation.dispatch(CommonActions.goBack())}
+        >
+          Go back
+        </Button>
+      </ScrollView>
+
+      <Player />
+    </View>
   );
 };
 
