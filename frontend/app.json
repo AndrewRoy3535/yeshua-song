@@ -1,16 +1,16 @@
 {
-  "name": "yeshua-song",
-  "displayName": "Yeshua Song",
+  "name": "Isa-e-songs",
+  "displayName": "Ias-e Songs",
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "Isa-e-songs",
+    "slug": "isaeSongs",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#386641"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -24,13 +24,14 @@
         "UISupportsDocumentBrowser": true,
         "UIFileSharingEnabled": true,
         "LSSupportsOpeningDocumentsInPlace": true
-    }
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "isae.songs"
     },
     "web": {
       "favicon": "./assets/favicon.png"

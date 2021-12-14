@@ -1,33 +1,36 @@
 import * as React from "react";
-import { Platform, StyleSheet, SafeAreaView } from "react-native";
+import { Platform, StyleSheet, SafeAreaView, StatusBar } from "react-native";
 import { Appbar } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./src/screens/Home";
 import Song from "./src/screens/Song";
+import BottomTab from "./src/Routes/BottomTab";
 const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical";
 const App = () => {
   const HomeStack = createNativeStackNavigator();
   return (
-    <SafeAreaView style={styles.container}>
-      <Appbar.Header>
-        <Appbar.Content title="Title" subtitle={"Subtitle"} />
-        <Appbar.Action icon="magnify" onPress={() => {}} />
-        <Appbar.Action icon={MORE_ICON} onPress={() => {}} />
-      </Appbar.Header>
+    // <SafeAreaView style={styles.AndroidSafeArea}>
+    //   <NavigationContainer>
+    //     <HomeStack.Navigator>
+    //       <HomeStack.Screen name='Home' component={Home} />
+    //       <HomeStack.Screen name='Song' component={Song} />
+    //     </HomeStack.Navigator>
+    //   </NavigationContainer>
+    // </SafeAreaView>
+    <SafeAreaView style={styles.AndroidSafeArea}>
       <NavigationContainer>
-        <HomeStack.Navigator>
-          <HomeStack.Screen name="Home" component={Home} />
-          <HomeStack.Screen name="Song" component={Song} />
-        </HomeStack.Navigator>
+        <BottomTab />
       </NavigationContainer>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  AndroidSafeArea: {
     flex: 1,
+    backgroundColor: "white",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
 });
 
