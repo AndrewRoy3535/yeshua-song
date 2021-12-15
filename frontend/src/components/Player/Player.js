@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Slider from "@react-native-community/slider";

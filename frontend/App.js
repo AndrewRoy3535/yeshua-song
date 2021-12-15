@@ -6,21 +6,23 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./src/screens/Home";
 import Song from "./src/screens/Song";
 import BottomTab from "./src/Routes/BottomTab";
+import ModalView from "./src/components/Modal/ModalView";
+
 const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical";
 const App = () => {
   const HomeStack = createNativeStackNavigator();
+  const [modalVisible, setModalVisible] = React.useState(false);
   return (
-    // <SafeAreaView style={styles.AndroidSafeArea}>
-    //   <NavigationContainer>
-    //     <HomeStack.Navigator>
-    //       <HomeStack.Screen name='Home' component={Home} />
-    //       <HomeStack.Screen name='Song' component={Song} />
-    //     </HomeStack.Navigator>
-    //   </NavigationContainer>
-    // </SafeAreaView>
     <SafeAreaView style={styles.AndroidSafeArea}>
       <NavigationContainer>
-        <BottomTab />
+        <ModalView
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+        <BottomTab
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
       </NavigationContainer>
     </SafeAreaView>
   );

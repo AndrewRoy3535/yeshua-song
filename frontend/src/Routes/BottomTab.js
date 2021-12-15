@@ -1,19 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { TouchableOpacity, Modal } from "react-native";
 import Home from "../screens/Home";
 import Song from "../screens/Song";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 
-function BottomTab() {
+function BottomTab({ modalVisible, setModalVisible }) {
   const Tab = createBottomTabNavigator();
-
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarActiveTintColor: "#008577",
-        headerRight: (props) => (
-          <AntDesign name='infocirlceo' size={21} style={{ marginRight: 20 }} />
+        headerRight: () => (
+          <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+            <AntDesign
+              name='infocirlceo'
+              size={21}
+              style={{ marginRight: 20 }}
+            />
+          </TouchableOpacity>
         ),
       }}>
       <Tab.Screen

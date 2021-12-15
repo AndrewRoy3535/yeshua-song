@@ -8,10 +8,13 @@ import {
   Colors,
   ActivityIndicator,
 } from "react-native-paper";
+import ModalView from "../components/Modal/ModalView";
 import sanity from "../lib/sanity";
+
 function Home({ navigation }) {
   const [songs, setSongs] = React.useState([]);
   const [loading, setloading] = React.useState(true);
+
   const query = `*[_type == "song"] {title,songNo,filename,lyrics,_id,"url":song.asset->url}| order(songNo asc)`;
 
   LogBox.ignoreLogs(["Setting a timer for a long period of time"]);
