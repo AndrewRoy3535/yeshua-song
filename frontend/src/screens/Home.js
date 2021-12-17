@@ -8,7 +8,6 @@ import {
   Colors,
   ActivityIndicator,
 } from "react-native-paper";
-import ModalView from "../components/Modal/ModalView";
 import sanity from "../lib/sanity";
 
 function Home({ navigation }) {

@@ -15,11 +15,11 @@ const App = () => {
   return (
     <SafeAreaView style={styles.AndroidSafeArea}>
       <NavigationContainer>
-        <ModalView
+        <BottomTab
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
         />
-        <BottomTab
+        <ModalView
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
         />

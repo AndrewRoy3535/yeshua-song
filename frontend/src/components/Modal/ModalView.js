@@ -14,7 +14,6 @@ import {
 const ModalView = ({ modalVisible, setModalVisible }) => {
   return (
     <>
-      {/* <StatusBar hidden /> */}
       <Modal
         animationType='fade'
         transparent={true}
