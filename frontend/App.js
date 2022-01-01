@@ -8,9 +8,9 @@ import Song from "./src/screens/Song";
 import BottomTab from "./src/Routes/BottomTab";
 import ModalView from "./src/components/Modal/ModalView";
 
-const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical";
+// const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical";
 const App = () => {
-  const HomeStack = createNativeStackNavigator();
+  // const HomeStack = createNativeStackNavigator();
   const [modalVisible, setModalVisible] = React.useState(false);
   return (
     <SafeAreaView style={styles.AndroidSafeArea}>

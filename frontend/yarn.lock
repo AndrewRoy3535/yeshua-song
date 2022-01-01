@@ -1925,7 +1925,7 @@
 
 "@react-native-community/slider@^4.1.12":
   version "4.1.12"
-  resolved "https://registry.yarnpkg.com/@react-native-community/slider/-/slider-4.1.12.tgz#279ff7bbe487af92ad95ec758a029a54569e2a62"
+  resolved "https://registry.npmjs.org/@react-native-community/slider/-/slider-4.1.12.tgz"
   integrity sha512-CiuLZ2orueBiWHYxfaJF57jQY6HY2Q3z5pdAE4MKH8EqIImr/jgDJrJ/UxOVZHK1Ng9P+XlGIKfVIcuWZ6guuA==
 
 "@react-navigation/bottom-tabs@^6.0.9":
@@ -3547,7 +3547,7 @@ expo-av@~9.2.3:
 
 expo-blur@~9.0.3:
   version "9.0.3"
-  resolved "https://registry.yarnpkg.com/expo-blur/-/expo-blur-9.0.3.tgz#5095b5bd04d000f73b351d0e4736767b86b49bbd"
+  resolved "https://registry.npmjs.org/expo-blur/-/expo-blur-9.0.3.tgz"
   integrity sha512-7jMqzo53eg5t9Uc1Tg+yGu9lKL9the4CWAQO0kC6YMhrsDiB13mwOUesC+IScHDTSUKNMGcHI8kN+OmvEWfPig==
 
 expo-constants@10.0.0:
