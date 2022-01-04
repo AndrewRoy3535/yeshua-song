@@ -5,6 +5,7 @@ const BlockContent = require("@sanity/block-content-to-react");
 import { Audio } from "expo-av";
 import EmptyScreen from "../components/EmptyScreen/EmptyScreen";
 import Player from "../components/Player/Player";
+import { AudioContext } from "../context/AudioProvider";
 
 class Song extends Component {
   constructor(props) {
@@ -19,6 +20,8 @@ class Song extends Component {
       playbackDuration: null,
     };
   }
+
+  static contextType = AudioContext;
 
   onPlaybackstatusUpdate = (playbackstatus) => {
     if (playbackstatus.isLoaded && playbackstatus.isPlaying) {
