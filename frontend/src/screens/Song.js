@@ -11,11 +11,10 @@ class Song extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      toggle: true,
-      palybackObj: null,
-      soundObj: null,
-      currentAudio: {},
-      isPlaying: false,
+      // palybackObj: null,
+      // soundObj: null,
+      // currentAudio: {},
+      // isPlaying: false,
       playbackPosition: null,
       playbackDuration: null,
     };
@@ -24,7 +23,13 @@ class Song extends Component {
   static contextType = AudioContext;
 
   onPlaybackstatusUpdate = (playbackstatus) => {
+    const { updateState } = this.context;
     if (playbackstatus.isLoaded && playbackstatus.isPlaying) {
+      // updateState(this.context, {
+      //   playbackPosition: playbackstatus.positionMillis,
+      //   playbackDuration: playbackstatus.durationMillis,
+      // });
+
       this.setState({
         ...this.state,
         playbackPosition: playbackstatus.positionMillis,
@@ -33,81 +38,103 @@ class Song extends Component {
     }
   };
 
+  async componentWillUnmount() {
+    const { palybackObj } = this.context;
+    await palybackObj.stopAsync();
+    await palybackObj.unloadAsync();
+  }
+
   render() {
     if (this.props.route.params === undefined) return <EmptyScreen />;
     const { song } = this.props.route.params;
     const { url, title, songNo, _id } = song;
 
+    // console.log(this.context);
     const palyAudio = async () => {
+      const { palybackObj, soundObj, currentAudio, updateState } = this.context;
       // Make audio paly for the first time
 
-      if (this.state.soundObj === null) {
+      if (soundObj === null) {
         const palybackObj = new Audio.Sound();
 
         const status = await palybackObj.loadAsync(
           { uri: url },
           { shouldPlay: true }
         );
-        // console.log(status);
-        this.setState({
-          ...this.state,
+
+        updateState(this.context, {
           palybackObj: palybackObj,
           soundObj: status,
           currentAudio: song,
           isPlaying: true,
         });
+
+        // this.setState({
+        //   ...this.state,
+        //   palybackObj: palybackObj,
+        //   soundObj: status,
+        //   currentAudio: song,
+        //   isPlaying: true,
+        // });
         return palybackObj.setOnPlaybackStatusUpdate(
           this.onPlaybackstatusUpdate
         );
       }
 
       // Pause current audio
-      if (
-        this.state.soundObj.isLoaded === true &&
-        this.state.soundObj.isPlaying === true
-      ) {
-        const status = await this.state.palybackObj.setStatusAsync({
+      if (soundObj.isLoaded === true && soundObj.isPlaying === true) {
+        const status = await palybackObj.setStatusAsync({
           shouldPlay: false,
         });
-        return this.setState({
-          ...this.state,
+        return updateState(this.context, {
           soundObj: status,
           isPlaying: false,
         });
+        // return this.setState({
+        //   ...this.state,
+        //   soundObj: status,
+        //   isPlaying: false,
+        // });
       }
 
       // resume the current audio
       if (
-        this.state.soundObj.isLoaded &&
-        !this.state.soundObj.isPlaying &&
-        this.state.currentAudio._id === song._id
+        soundObj.isLoaded &&
+        !soundObj.isPlaying &&
+        currentAudio._id === song._id
       ) {
-        const status = await this.state.palybackObj.playAsync();
+        const status = await palybackObj.playAsync();
 
-        return this.setState({
-          ...this.state,
-          soundObj: status,
-          isPlaying: true,
-        });
+        return updateState(this.context, { soundObj: status, isPlaying: true });
+
+        // return this.setState({
+        //   ...this.state,
+        //   soundObj: status,
+        //   isPlaying: true,
+        // });
       }
       //paly next audio
-      if (
-        this.state.soundObj.isLoaded &&
-        this.state.currentAudio._id !== song._id
-      ) {
-        await this.state.palybackObj.stopAsync();
-        await this.state.palybackObj.unloadAsync();
-        const status = await this.state.palybackObj.loadAsync(
+      if (soundObj.isLoaded && currentAudio._id !== song._id) {
+        await palybackObj.stopAsync();
+        await palybackObj.unloadAsync();
+        const status = await palybackObj.loadAsync(
           { uri: url },
           { shouldPlay: true }
         );
         // console.log(status);
-        return this.setState({
-          ...this.state,
+
+        return updateState(this.context, {
           soundObj: status,
           currentAudio: song,
           isPlaying: true,
         });
+
+        // return this.setState({
+        //   ...this.state,
+        //   soundObj: status,
+        //   currentAudio: song,
+        //   isPlaying: true,
+        // });
       }
     };
 
@@ -125,9 +152,7 @@ class Song extends Component {
           </ScrollView>
         </View>
         <Player
-          isPlaying={this.state.isPlaying}
           palyAudio={palyAudio}
-          currentAudio={this.state.currentAudio}
           playbackPosition={this.state.playbackPosition}
           playbackDuration={this.state.playbackDuration}
         />

@@ -9,8 +9,14 @@ export class AudioProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      palybackObj: null,
+      soundObj: null,
+      currentAudio: {},
+      isPlaying: false,
       audio: [],
       loading: true,
+      playbackPosition: null,
+      playbackDuration: null,
     };
   }
 
@@ -26,15 +32,35 @@ export class AudioProvider extends Component {
     this.fetchAudio();
   }
 
-  componentWillUnmount() {
-    this.fetchAudio();
-  }
+  updateState = (prevState, newState = {}) => {
+    this.setState({ ...prevState, ...newState });
+  };
 
   render() {
-    const { audio, loading } = this.state;
+    const {
+      audio,
+      loading,
+      palybackObj,
+      soundObj,
+      currentAudio,
+      isPlaying,
+      playbackPosition,
+      playbackDuration,
+    } = this.state;
 
     return (
-      <AudioContext.Provider value={{ audio, loading }}>
+      <AudioContext.Provider
+        value={{
+          audio,
+          loading,
+          updateState: this.updateState,
+          palybackObj,
+          soundObj,
+          currentAudio,
+          isPlaying,
+          playbackPosition,
+          playbackDuration,
+        }}>
         {this.props.children}
       </AudioContext.Provider>
     );

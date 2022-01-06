@@ -4,10 +4,7 @@ import {
   Modal,
   StyleSheet,
   Text,
-  Pressable,
   View,
-  Dimensions,
-  StatusBar,
   TouchableWithoutFeedback,
 } from "react-native";
 

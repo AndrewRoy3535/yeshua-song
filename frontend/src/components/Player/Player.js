@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Slider from "@react-native-community/slider";
+import { AudioContext } from "../../context/AudioProvider";
 
-const Player = ({
-  isPlaying,
-  palyAudio,
-  currentAudio,
-  playbackPosition,
-  playbackDuration,
-}) => {
+const Player = ({ palyAudio, playbackPosition, playbackDuration }) => {
   const { width } = Dimensions.get("window");
+  const context = useContext(AudioContext);
+
+  const { isPlaying, currentAudio } = context;
 
   const calculateSeekBar = () => {
     if (playbackPosition !== null && playbackDuration !== null) {
@@ -18,6 +16,8 @@ const Player = ({
     }
     return 0;
   };
+
+  // console.log(calculateSeekBar());
 
   return (
     <View style={styles.container}>
