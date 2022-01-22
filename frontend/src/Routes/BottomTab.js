@@ -1,18 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TouchableOpacity, Modal } from "react-native";
 import Home from "../screens/Home";
 import Song from "../screens/Song";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AudioContext } from "../context/AudioProvider";
 
-function BottomTab({ modalVisible, setModalVisible }) {
+function BottomTab() {
   const Tab = createBottomTabNavigator();
+
+  const context = useContext(AudioContext);
+
+  const { modalVisible, updateState } = context;
+
+  const setModalVisible = () => {
+    updateState(context, { modalVisible: !modalVisible });
+  };
+
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarActiveTintColor: "#008577",
         headerRight: () => (
-          <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+          <TouchableOpacity onPress={setModalVisible}>
             <AntDesign
               name='infocirlceo'
               size={21}

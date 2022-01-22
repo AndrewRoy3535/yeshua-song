@@ -13,10 +13,12 @@ export class AudioProvider extends Component {
       soundObj: null,
       currentAudio: {},
       isPlaying: false,
-      audio: [],
-      loading: true,
       playbackPosition: null,
       playbackDuration: null,
+      modalVisible: false,
+      audio: [],
+      loading: true,
+      currentIndex: 0,
     };
   }
 
@@ -24,11 +26,16 @@ export class AudioProvider extends Component {
     const query = `*[_type == "song"] {title,songNo,filename,lyrics,_id,"url":song.asset->url}| order(songNo asc)`;
     const params = {};
     await sanity.fetch(query, params).then((data) => {
-      this.setState({ ...this.state, audio: data, loading: false });
+      this.setState({ audio: data, loading: false });
     });
   }
 
   componentDidMount() {
+    this.fetchAudio();
+  }
+
+  componentWillUnmount() {
+    this.setState({ loading: true });
     this.fetchAudio();
   }
 
@@ -37,6 +44,7 @@ export class AudioProvider extends Component {
   };
 
   render() {
+    // console.log(this.state.currentIndex);
     const {
       audio,
       loading,
@@ -46,6 +54,8 @@ export class AudioProvider extends Component {
       isPlaying,
       playbackPosition,
       playbackDuration,
+      modalVisible,
+      currentIndex,
     } = this.state;
 
     return (
@@ -60,6 +70,8 @@ export class AudioProvider extends Component {
           isPlaying,
           playbackPosition,
           playbackDuration,
+          modalVisible,
+          currentIndex,
         }}>
         {this.props.children}
       </AudioContext.Provider>

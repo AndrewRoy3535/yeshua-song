@@ -2,6 +2,9 @@ import * as React from "react";
 import { View, Text, LogBox, ScrollView } from "react-native";
 import { Card, Colors, ActivityIndicator } from "react-native-paper";
 import { AudioContext } from "../context/AudioProvider";
+import sanity from "../lib/sanity";
+
+LogBox.ignoreLogs(["Setting a timer for a long period of time"]);
 
 class Home extends React.Component {
   constructor(props) {
@@ -11,9 +14,9 @@ class Home extends React.Component {
   static contextType = AudioContext;
 
   render() {
-    const { audio, loading } = this.context;
-    const { navigation } = this.props;
+    const { loading, audio } = this.context;
 
+    const { navigation } = this.props;
     return (
       <>
         {loading ? (
@@ -39,7 +42,7 @@ class Home extends React.Component {
                 width: "100%",
                 paddingVertical: 10,
               }}>
-              {audio.map((song) => {
+              {audio.map((song, index, audioItself) => {
                 return (
                   <Card
                     key={song._id}
@@ -51,6 +54,8 @@ class Home extends React.Component {
                     onPress={() =>
                       navigation.navigate("Music", {
                         song: { ...song },
+                        index,
+                        audioItself,
                       })
                     }>
                     <Card.Title title={song.title} />

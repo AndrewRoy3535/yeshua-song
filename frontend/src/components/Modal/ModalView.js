@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Alert,
   Modal,
@@ -7,8 +7,17 @@ import {
   View,
   TouchableWithoutFeedback,
 } from "react-native";
+import { AudioContext } from "../../context/AudioProvider";
 
-const ModalView = ({ modalVisible, setModalVisible }) => {
+const ModalView = () => {
+  const context = useContext(AudioContext);
+
+  const { modalVisible, updateState } = context;
+
+  const setModalVisible = () => {
+    updateState(context, { modalVisible: !modalVisible });
+  };
+
   return (
     <>
       <Modal
@@ -17,7 +26,7 @@ const ModalView = ({ modalVisible, setModalVisible }) => {
         visible={modalVisible}
         onRequestClose={() => {
           Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
+          setModalVisible;
         }}>
         <View style={styles.modalContainer}>
           <View style={styles.aboutContainer}>
@@ -27,8 +36,7 @@ const ModalView = ({ modalVisible, setModalVisible }) => {
             <Text>lorem sdf sdfer derfdsf dsfefsd </Text>
           </View>
         </View>
-        <TouchableWithoutFeedback
-          onPress={() => setModalVisible(!modalVisible)}>
+        <TouchableWithoutFeedback onPress={setModalVisible}>
           <View style={styles.modalBg} />
         </TouchableWithoutFeedback>
       </Modal>
