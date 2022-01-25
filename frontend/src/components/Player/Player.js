@@ -102,20 +102,22 @@ const Player = ({
 
   return (
     <View style={styles.container}>
-      <View style={styles.nowPlaying}>
-        <Text style={{ color: "#aaa" }}>Now playing: </Text>
-        <Text style={styles.nowPlayingText}> {currentAudio.title}</Text>
-      </View>
       <Text style={styles.audioCount}>{`${
         currentIndex + 1
       } / ${totalAudioCount}`}</Text>
+      <View style={styles.nowPlaying}>
+        <Text style={{ color: "#aaa" }}>Now Playing: </Text>
+        <Text style={styles.nowPlayingText}> {currentAudio.title}</Text>
+      </View>
+
       <Slider
         style={{ width: width, height: 30 }}
         minimumValue={0}
         maximumValue={1}
         value={calculateSeekBar()}
-        minimumTrackTintColor='#008577'
+        minimumTrackTintColor='#b5d3a3'
         maximumTrackTintColor='#000000'
+        thumbTintColor='#b5d3a3'
       />
       <View style={styles.playerContainer}>
         {/* ----------------previous button---------------- */}
@@ -125,8 +127,8 @@ const Player = ({
             marginHorizontal: 7,
           }}
           name='stepbackward'
-          size={37}
-          color='#008577'
+          size={33}
+          color='#b5d3a3'
           onPress={handlePrevious}
         />
         {/* ------------play pause button-----------   */}
@@ -135,8 +137,8 @@ const Player = ({
             alignSelf: "center",
           }}
           name={isPlaying ? "pause" : "play"}
-          size={45}
-          color='#008577'
+          size={51}
+          color='#b5d3a3'
           onPress={palyAudio}
         />
         {/* ------------------------play next------------------ */}
@@ -146,8 +148,8 @@ const Player = ({
             marginHorizontal: 7,
           }}
           name='stepforward'
-          size={37}
-          color='#008577'
+          size={33}
+          color='#b5d3a3'
           onPress={handleNext}
         />
       </View>
@@ -160,6 +162,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderTopWidth: 2,
     borderColor: "#ddd",
+    backgroundColor: "#688b69",
   },
   playerContainer: {
     position: "relative",
@@ -167,6 +170,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
+    paddingBottom: 20,
   },
   nowPlaying: {
     flexDirection: "row",
@@ -177,7 +181,7 @@ const styles = StyleSheet.create({
   nowPlayingText: {
     fontWeight: "bold",
     fontSize: 15,
-    color: "#008577",
+    color: "#b5d3a3",
   },
   audioCount: { color: "#aaa", paddingHorizontal: 9, paddingVertical: 3 },
 });

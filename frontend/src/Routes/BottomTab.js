@@ -20,13 +20,17 @@ function BottomTab() {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: "#008577",
+        // tabBarActiveBackgroundColor: "#688b69",
+        tabBarActiveTintColor: "#688b69",
+        tabBarActiveBackgroundColor: "#b5d3a3",
+        tabBarStyle: { backgroundColor: "#688b69" },
         headerRight: () => (
           <TouchableOpacity onPress={setModalVisible}>
             <AntDesign
               name='infocirlceo'
               size={21}
               style={{ marginRight: 20 }}
+              color='#000'
             />
           </TouchableOpacity>
         ),
@@ -35,6 +39,10 @@ function BottomTab() {
         name='Home'
         component={Home}
         options={{
+          // headerTintColor: "#b5d3a3",
+          headerStyle: {
+            backgroundColor: "#b5d3a3",
+          },
           tabBarIcon: ({ color }) => (
             <AntDesign name='home' color={color} size={25} />
           ),
@@ -44,6 +52,9 @@ function BottomTab() {
         name='Music'
         component={Song}
         options={{
+          headerStyle: {
+            backgroundColor: "#b5d3a3",
+          },
           tabBarIcon: ({ color }) => (
             <Ionicons name='md-musical-notes-outline' color={color} size={25} />
           ),

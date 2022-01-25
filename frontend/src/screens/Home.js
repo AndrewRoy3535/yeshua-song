@@ -41,6 +41,7 @@ class Home extends React.Component {
               style={{
                 width: "100%",
                 paddingVertical: 10,
+                backgroundColor: "#688b69",
               }}>
               {audio.map((song, index, audioItself) => {
                 return (
@@ -50,6 +51,7 @@ class Home extends React.Component {
                       display: "flex",
                       marginHorizontal: 5,
                       marginBottom: 5,
+                      backgroundColor: "#b5d3a3",
                     }}
                     onPress={() =>
                       navigation.navigate("Music", {
