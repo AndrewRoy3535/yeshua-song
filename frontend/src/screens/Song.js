@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
+import { View, ScrollView, StyleSheet, Text } from "react-native";
 import tw from "tailwind-react-native-classnames";
 const BlockContent = require("@sanity/block-content-to-react");
 import { Audio } from "expo-av";
@@ -44,7 +44,8 @@ class Song extends Component {
           playbackDuration: null,
         });
 
-        return this.context.updateState(this.context, {
+        return this.context.updateState({
+          ...this.context,
           soundObj: null,
           isPlaying: false,
           currentAudio: this.context.audio[0],
@@ -54,7 +55,8 @@ class Song extends Component {
       // otherwise do this
       const audioNew = this.context.audio[nextAudioIndex];
       const status = await playNext(this.context.palybackObj, audioNew.url);
-      this.context.updateState(this.context, {
+      this.context.updateState({
+        ...this.context,
         soundObj: status,
         isPlaying: true,
         currentAudio: audioNew,
@@ -69,9 +71,6 @@ class Song extends Component {
     this._isMounted = true;
     try {
       await Audio.setAudioModeAsync({
-        allowsRecordingIOS: false,
-        interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-        playsInSilentModeIOS: true,
         interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
         shouldDuckAndroid: true,
         staysActiveInBackground: true,
@@ -81,13 +80,6 @@ class Song extends Component {
       console.log(e);
     }
   }
-
-  // async componentWillUnmount() {
-  //   const { palybackObj } = this.context;
-  //   await palybackObj.stopAsync();
-  //   await palybackObj.unloadAsync();
-  //   this._isMounted = false;
-  // }
 
   render() {
     if (this.props.route.params === undefined) return <EmptyScreen />;
@@ -105,12 +97,14 @@ class Song extends Component {
 
         const status = await play(palybackObj, url);
 
-        updateState(this.context, {
+        updateState({
+          ...this.context,
           palybackObj: palybackObj,
           soundObj: status,
           currentAudio: song,
           isPlaying: true,
           currentIndex: this.props.route.params.index,
+          showLyrics: true,
         });
 
         if (this._isMounted) {
@@ -123,7 +117,8 @@ class Song extends Component {
       // Pause current audio
       if (soundObj.isLoaded === true && soundObj.isPlaying === true) {
         const status = await pause(palybackObj);
-        return updateState(this.context, {
+        return updateState({
+          ...this.context,
           soundObj: status,
           isPlaying: false,
         });
@@ -137,13 +132,18 @@ class Song extends Component {
       ) {
         const status = await resume(palybackObj);
 
-        return updateState(this.context, { soundObj: status, isPlaying: true });
+        return updateState({
+          ...this.context,
+          soundObj: status,
+          isPlaying: true,
+        });
       }
       //paly next audio
       if (soundObj.isLoaded && currentAudio._id !== song._id) {
         const status = await playNext(palybackObj, url);
 
-        return updateState(this.context, {
+        return updateState({
+          ...this.context,
           soundObj: status,
           currentAudio: song,
           isPlaying: true,
@@ -161,9 +161,18 @@ class Song extends Component {
           },
         ]}>
         <View style={styles.lriyContainer}>
-          <ScrollView style={tw`px-2  pt-2 pb-32`}>
-            <BlockContent blocks={song.lyrics} />
-          </ScrollView>
+          {this.context.showLyrics ? (
+            <ScrollView style={tw`px-2  pt-2 pb-32`}>
+              <BlockContent blocks={this.context.currentAudio.lyrics} />
+            </ScrollView>
+          ) : (
+            <View style={styles.emptyContainer}>
+              <Text>Press play icon to play song no {index + 1}</Text>
+            </View>
+            // <ScrollView style={tw`px-2  pt-2 pb-32`}>
+            //   <BlockContent blocks={song.lyrics} />
+            // </ScrollView>
+          )}
         </View>
         <Player
           palyAudio={palyAudio}
@@ -188,6 +197,11 @@ const styles = StyleSheet.create({
   },
   playerContainer: {
     backgroundColor: "#ddd",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

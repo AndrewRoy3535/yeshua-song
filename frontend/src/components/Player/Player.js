@@ -51,7 +51,8 @@ const Player = ({
       }
     }
 
-    context.updateState(context, {
+    context.updateState({
+      ...context,
       currentAudio: audio,
       palybackObj: context.palybackObj,
       soundObj: status,
@@ -89,7 +90,8 @@ const Player = ({
       }
     }
 
-    context.updateState(context, {
+    context.updateState({
+      ...context,
       currentAudio: audio,
       palybackObj: context.palybackObj,
       soundObj: status,

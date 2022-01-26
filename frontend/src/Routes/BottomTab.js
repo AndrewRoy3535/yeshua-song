@@ -14,7 +14,7 @@ function BottomTab() {
   const { modalVisible, updateState } = context;
 
   const setModalVisible = () => {
-    updateState(context, { modalVisible: !modalVisible });
+    updateState({ ...context, modalVisible: !modalVisible });
   };
 
   return (
