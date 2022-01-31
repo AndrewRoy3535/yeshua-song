@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { TouchableOpacity, Modal } from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import Home from "../screens/Home";
 import Song from "../screens/Song";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
@@ -11,7 +11,7 @@ function BottomTab() {
 
   const context = useContext(AudioContext);
 
-  const { modalVisible, updateState } = context;
+  const { modalVisible, navigationIndex, updateState } = context;
 
   const setModalVisible = () => {
     updateState({ ...context, modalVisible: !modalVisible });
@@ -24,15 +24,21 @@ function BottomTab() {
         tabBarActiveTintColor: "#688b69",
         tabBarActiveBackgroundColor: "#b5d3a3",
         tabBarStyle: { backgroundColor: "#688b69" },
+
         headerRight: () => (
-          <TouchableOpacity onPress={setModalVisible}>
-            <AntDesign
-              name='infocirlceo'
-              size={21}
-              style={{ marginRight: 20 }}
-              color='#000'
-            />
-          </TouchableOpacity>
+          <View style={styles.container}>
+            <Text style={{ marginRight: 10, color: "#fff" }}>
+              Navigated song no. {navigationIndex + 1}
+            </Text>
+            <TouchableOpacity onPress={setModalVisible}>
+              <AntDesign
+                name='infocirlceo'
+                size={21}
+                style={{ marginRight: 20 }}
+                color='#000'
+              />
+            </TouchableOpacity>
+          </View>
         ),
       }}>
       <Tab.Screen
@@ -63,5 +69,13 @@ function BottomTab() {
     </Tab.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default BottomTab;

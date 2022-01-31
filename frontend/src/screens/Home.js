@@ -1,7 +1,6 @@
 import * as React from "react";
 import { View, Text, LogBox, ScrollView } from "react-native";
 import { Card, Colors, ActivityIndicator } from "react-native-paper";
-import { color } from "react-native-reanimated";
 import { AudioContext } from "../context/AudioProvider";
 
 LogBox.ignoreLogs(["Setting a timer for a long period of time"]);
@@ -9,7 +8,7 @@ LogBox.ignoreLogs(["Setting a timer for a long period of time"]);
 function Home(props) {
   const context = React.useContext(AudioContext);
 
-  const { loading, audio } = context;
+  const { loading, audio, updateState } = context;
 
   const { navigation } = props;
   return (
@@ -48,16 +47,17 @@ function Home(props) {
                     marginBottom: 5,
                     backgroundColor: "#b5d3a3",
                   }}
-                  onPress={() =>
+                  onPress={() => {
                     navigation.navigate("Music", {
                       song: { ...song },
                       index,
                       audioItself,
-                    })
-                  }>
+                    });
+                    updateState({ ...context, navigationIndex: index });
+                  }}>
                   <Card.Title
                     title={`${index + 1}. ${song.title}`}
-                    titleStyle={{ fontSize: 15 }}
+                    titleStyle={{ fontSize: 15, color: "#fff" }}
                   />
                 </Card>
               );

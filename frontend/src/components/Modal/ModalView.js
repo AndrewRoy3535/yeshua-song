@@ -6,8 +6,11 @@ import {
   Text,
   View,
   TouchableWithoutFeedback,
+  Image,
+  Linking,
 } from "react-native";
 import { AudioContext } from "../../context/AudioProvider";
+import { Entypo } from "@expo/vector-icons";
 
 const ModalView = () => {
   const context = useContext(AudioContext);
@@ -30,10 +33,54 @@ const ModalView = () => {
         }}>
         <View style={styles.modalContainer}>
           <View style={styles.aboutContainer}>
-            <Text style={styles.aboutText}>App info</Text>
-            <Text>lorem sdf sdfer derfdsf dsfefsd </Text>
-            <Text>lorem sdf sdfer derfdsf dsfefsd </Text>
-            <Text>lorem sdf sdfer derfdsf dsfefsd </Text>
+            <Text style={styles.aboutText}>Songs of Psalms</Text>
+            <View style={{ alignItems: "center" }}>
+              <Image
+                source={require("../../../assets/appInfo.jpg")}
+                style={{
+                  height: 75,
+                  width: 75,
+                  borderRadius: 5,
+                }}
+              />
+              <Text style={{ fontSize: 11 }}>Version: 1.0</Text>
+              <Text>Contact info & social media </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  width: "45%",
+                  justifyContent: "space-evenly",
+                  padding: 5,
+                }}>
+                <TouchableWithoutFeedback
+                  onPress={() =>
+                    Linking.openURL("https://www.isaechurchbd.org/contact-us/")
+                  }>
+                  <Image
+                    source={require("../../../assets/ICB.jpg")}
+                    style={{ height: 29, width: 29, borderRadius: 100 }}
+                  />
+                </TouchableWithoutFeedback>
+                <Entypo
+                  name='facebook-with-circle'
+                  size={29}
+                  color='white'
+                  onPress={() =>
+                    Linking.openURL("https://www.facebook.com/isaechurchbd.org")
+                  }
+                />
+                <Entypo
+                  name='youtube-with-circle'
+                  size={29}
+                  color='white'
+                  onPress={() =>
+                    Linking.openURL(
+                      "https://www.youtube.com/channel/UC416b0EMJokuN3dxPG5WfDg"
+                    )
+                  }
+                />
+              </View>
+            </View>
           </View>
         </View>
         <TouchableWithoutFeedback onPress={setModalVisible}>
@@ -54,13 +101,14 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   aboutText: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: "bold",
     textAlign: "center",
     padding: 5,
+    marginBottom: 7,
   },
   aboutContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: "#688b69",
     padding: 20,
     borderRadius: 5,
   },

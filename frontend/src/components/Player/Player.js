@@ -4,13 +4,15 @@ import { AntDesign } from "@expo/vector-icons";
 import Slider from "@react-native-community/slider";
 import { AudioContext } from "../../context/AudioProvider";
 import { play, playNext } from "../../Utils/audioController";
+import { Entypo } from "@expo/vector-icons";
+import useTimeBlockedCallback from "../../Utils/useTimeBlockedCallback";
+import { State } from "react-native-gesture-handler";
 
 const Player = ({
   palyAudio,
+  totalAudioCount,
   playbackPosition,
   playbackDuration,
-  totalAudioCount,
-  songIndex,
 }) => {
   const { width } = Dimensions.get("window");
   const context = useContext(AudioContext);
@@ -58,8 +60,6 @@ const Player = ({
       soundObj: status,
       isPlaying: true,
       currentIndex: index,
-      //  playbackPosition: null,
-      //  playbackDuration: null,
     });
   };
 
@@ -97,9 +97,23 @@ const Player = ({
       soundObj: status,
       isPlaying: true,
       currentIndex: index,
-      //  playbackPosition: null,
-      //  playbackDuration: null,
     });
+  };
+
+  const fullStop = async () => {
+    if (context.soundObj.isLoaded) {
+      await context.palybackObj.stopAsync();
+      await context.palybackObj.unloadAsync();
+      context.updateState({
+        ...context,
+        currentAudio: null,
+        palybackObj: null,
+        soundObj: null,
+        isPlaying: false,
+        currentIndex: context.currentIndex,
+        showLyrics: false,
+      });
+    }
   };
 
   return (
@@ -109,7 +123,11 @@ const Player = ({
       } / ${totalAudioCount}`}</Text>
       <View style={styles.nowPlaying}>
         <Text style={{ color: "#aaa" }}>Now Playing: </Text>
-        <Text style={styles.nowPlayingText}> {currentAudio.title}</Text>
+        {context.showLyrics ? (
+          <Text style={styles.nowPlayingText}> {currentAudio.title}</Text>
+        ) : (
+          <Text></Text>
+        )}
       </View>
 
       <Slider
@@ -131,7 +149,7 @@ const Player = ({
           name='stepbackward'
           size={33}
           color='#b5d3a3'
-          onPress={handlePrevious}
+          onPress={useTimeBlockedCallback(handlePrevious)}
         />
         {/* ------------play pause button-----------   */}
         <AntDesign
@@ -139,10 +157,21 @@ const Player = ({
             alignSelf: "center",
           }}
           name={isPlaying ? "pause" : "play"}
-          size={51}
+          size={45}
           color='#b5d3a3'
-          onPress={palyAudio}
+          onPress={useTimeBlockedCallback(palyAudio)}
         />
+        {context.showLyrics ? (
+          <Entypo
+            name='controller-stop'
+            size={45}
+            color='#b5d3a3'
+            onPress={fullStop}
+          />
+        ) : (
+          <Text />
+        )}
+
         {/* ------------------------play next------------------ */}
         <AntDesign
           style={{
@@ -152,7 +181,7 @@ const Player = ({
           name='stepforward'
           size={33}
           color='#b5d3a3'
-          onPress={handleNext}
+          onPress={useTimeBlockedCallback(handleNext)}
         />
       </View>
     </View>
@@ -167,7 +196,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#688b69",
   },
   playerContainer: {
-    position: "relative",
+    // position: "relative",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

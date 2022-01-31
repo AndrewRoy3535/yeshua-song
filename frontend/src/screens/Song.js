@@ -21,7 +21,8 @@ class Song extends Component {
 
   onPlaybackstatusUpdate = async (playbackstatus) => {
     if (playbackstatus.isLoaded && playbackstatus.isPlaying) {
-      // this.context.updateState(this.context, {
+      // this.context.updateState({
+      //   ...this.context,
       //   playbackPosition: playbackstatus.positionMillis,
       //   playbackDuration: playbackstatus.durationMillis,
       // });
@@ -74,7 +75,7 @@ class Song extends Component {
         interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
         shouldDuckAndroid: true,
         staysActiveInBackground: true,
-        playThroughEarpieceAndroid: true,
+        // playThroughEarpieceAndroid: true,
       });
     } catch (e) {
       console.log(e);
@@ -167,7 +168,9 @@ class Song extends Component {
             </ScrollView>
           ) : (
             <View style={styles.emptyContainer}>
-              <Text>Press play icon to play song no {index + 1}</Text>
+              <Text style={{ color: "#688b69", fontSize: 21 }}>
+                Press play icon to play song no {index + 1}
+              </Text>
             </View>
             // <ScrollView style={tw`px-2  pt-2 pb-32`}>
             //   <BlockContent blocks={song.lyrics} />
@@ -179,7 +182,6 @@ class Song extends Component {
           playbackPosition={this.state.playbackPosition}
           playbackDuration={this.state.playbackDuration}
           totalAudioCount={totalAudioCount}
-          songIndex={index}
         />
       </View>
     );
