@@ -84,10 +84,10 @@ class Song extends Component {
 
   render() {
     if (this.props.route.params === undefined) return <EmptyScreen />;
-    const { song, index, audioItself } = this.props.route.params;
+    const { song, index } = this.props.route.params;
     const { url, title, songNo, _id } = song;
 
-    const totalAudioCount = audioItself.length;
+    const totalAudioCount = this.context.audio.length;
 
     const palyAudio = async () => {
       const { palybackObj, soundObj, currentAudio, updateState } = this.context;

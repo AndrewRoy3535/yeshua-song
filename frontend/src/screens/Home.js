@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, LogBox, ScrollView } from "react-native";
+import { View, Text, LogBox, ScrollView, FlatList } from "react-native";
 import { Card, Colors, ActivityIndicator } from "react-native-paper";
 import { AudioContext } from "../context/AudioProvider";
 
@@ -11,6 +11,29 @@ function Home(props) {
   const { loading, audio, updateState } = context;
 
   const { navigation } = props;
+
+  const renderItem = ({ item, index }) => (
+    <Card
+      style={{
+        display: "flex",
+        marginHorizontal: 5,
+        marginBottom: 5,
+        backgroundColor: "#b5d3a3",
+      }}
+      onPress={() => {
+        navigation.navigate("Music", {
+          song: { ...item },
+          index,
+        });
+        updateState({ ...context, navigationIndex: index });
+      }}>
+      <Card.Title
+        title={`${item.title}`}
+        titleStyle={{ fontSize: 15, color: "#fff" }}
+      />
+    </Card>
+  );
+
   return (
     <>
       {loading ? (
@@ -30,40 +53,13 @@ function Home(props) {
           </Text>
         </View>
       ) : (
-        <ScrollView>
-          <View
-            style={{
-              width: "100%",
-              paddingVertical: 10,
-              backgroundColor: "#688b69",
-            }}>
-            {audio.map((song, index, audioItself) => {
-              return (
-                <Card
-                  key={song._id}
-                  style={{
-                    display: "flex",
-                    marginHorizontal: 5,
-                    marginBottom: 5,
-                    backgroundColor: "#b5d3a3",
-                  }}
-                  onPress={() => {
-                    navigation.navigate("Music", {
-                      song: { ...song },
-                      index,
-                      audioItself,
-                    });
-                    updateState({ ...context, navigationIndex: index });
-                  }}>
-                  <Card.Title
-                    title={`${index + 1}. ${song.title}`}
-                    titleStyle={{ fontSize: 15, color: "#fff" }}
-                  />
-                </Card>
-              );
-            })}
-          </View>
-        </ScrollView>
+        <View style={{ padding: 5 }}>
+          <FlatList
+            data={audio}
+            renderItem={renderItem}
+            keyExtractor={(item) => item._id}
+          />
+        </View>
       )}
     </>
   );
