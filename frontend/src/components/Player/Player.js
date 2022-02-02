@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Slider from "@react-native-community/slider";
 import { AudioContext } from "../../context/AudioProvider";
-import { play, playNext } from "../../Utils/audioController";
+import { play, playNext, resume } from "../../Utils/audioController";
 import { Entypo } from "@expo/vector-icons";
 import useTimeBlockedCallback from "../../Utils/useTimeBlockedCallback";
 import { State } from "react-native-gesture-handler";
@@ -138,6 +138,20 @@ const Player = ({
         minimumTrackTintColor='#b5d3a3'
         maximumTrackTintColor='#000000'
         thumbTintColor='#b5d3a3'
+        onSlidingComplete={async (value) => {
+          if (context.soundObj === null || !context.isPlaying) return;
+
+          try {
+            const status = await context.palybackObj.setPositionAsync(
+              Math.floor(context.soundObj.durationMillis * value)
+            );
+
+            context.updateState({ ...context, soundObj: status });
+            await resume(context.palybackObj);
+          } catch (e) {
+            console.log("error from slider", e.messege);
+          }
+        }}
       />
       <View style={styles.playerContainer}>
         {/* ----------------previous button---------------- */}
