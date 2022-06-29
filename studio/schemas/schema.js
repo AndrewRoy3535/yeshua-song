@@ -6,6 +6,7 @@ import schemaTypes from "all:part:@sanity/base/schema-type";
 import song from "./song";
 import bookOfpsalm from "./bookOfpsalm";
 import gitsonghita from "./gitsonghita";
+import introduction from "./introduction";
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
   // We name our schema
@@ -17,5 +18,6 @@ export default createSchema({
     song,
     bookOfpsalm,
     gitsonghita,
+    introduction,
   ]),
 });
