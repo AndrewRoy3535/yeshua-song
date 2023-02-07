@@ -14,7 +14,7 @@ export default {
       type: "string",
     },
     {
-      name: "bookNo",
+      name: "orderNo",
       title: "Order No. (English)",
       type: "string",
     },
