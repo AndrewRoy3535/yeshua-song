@@ -10,7 +10,12 @@ export default {
     },
     {
       name: "bookNo",
-      title: "Book No. (English)",
+      title: "Book No (Bangla)",
+      type: "string",
+    },
+    {
+      name: "bookNo",
+      title: "Order No. (English)",
       type: "string",
     },
     {
